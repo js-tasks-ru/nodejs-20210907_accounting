@@ -33,7 +33,7 @@ server.on('request', (req, res) => {
         }
       })
       stream.on('data', (chunk) => res.end(chunk))
-      req.on('abort', () => stream.destroy())
+      req.on('aborted', () => stream.destroy())
       break;
 
     default:
