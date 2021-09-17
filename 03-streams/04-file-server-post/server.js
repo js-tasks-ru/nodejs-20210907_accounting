@@ -14,7 +14,6 @@ server.on('request', (req, res) => {
 
   switch (req.method) {
     case 'POST':
-      console.log('fs.existsSync(filepath)', fs.existsSync(filepath));
       if (req.url.split('/').length > 2) {
         res.statusCode = 400;
         res.end('Nested folders are not supported')
@@ -49,7 +48,7 @@ server.on('request', (req, res) => {
         })
 
         req.on('end', () => {
-          res.statusCode = 201
+          res.statusCode = 200
           res.end('Filed saved')
         })
       }
