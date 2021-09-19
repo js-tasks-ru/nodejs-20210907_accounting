@@ -8,7 +8,6 @@ let count = 0;
 function onData(line) {
     count += 1
     console.log(line);
-    console.log('count: ' + count);
 }
 
 lines.on('data', onData);

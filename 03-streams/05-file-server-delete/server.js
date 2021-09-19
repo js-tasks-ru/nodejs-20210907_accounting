@@ -10,6 +10,12 @@ server.on('request', (req, res) => {
 
   const filepath = path.join(__dirname, 'files', pathname);
 
+  if (req.url.split('/').length > 2) {
+    res.statusCode = 400;
+    res.end('Nested folders are not supported')
+    return
+  }
+
   switch (req.method) {
     case 'DELETE':
       fs.unlink(filepath, (err) => {
@@ -19,14 +25,11 @@ server.on('request', (req, res) => {
         } else {
 
           if (err.code === 'ENOENT') {
-            if (req.url.split('/').length > 2) {
-              res.statusCode = 400;
-              res.end('Nested folders are not supported')
-            } else {
-              res.statusCode = 404
-              res.end('Not found')
-            }
-          } else {
+
+            res.statusCode = 404
+            res.end('Not found')
+          }
+          else {
             res.statusCode = 500
             res.end('Server error')
           }
