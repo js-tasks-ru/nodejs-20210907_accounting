@@ -12,10 +12,10 @@ server.on('request', (req, res) => {
 
   const filepath = path.join(__dirname, 'files', pathname);
 
-  const stream = fs.createReadStream(filepath);
-
   switch (req.method) {
     case 'GET':
+      const stream = fs.createReadStream(filepath);
+      stream.pipe(res);
       stream.on('error', (err) => {
         if (err.code === 'ENOENT') {
           if (!isFile(pathname)) {
@@ -31,7 +31,6 @@ server.on('request', (req, res) => {
           res.end('Server error')
         }
       })
-      stream.on('data', (chunk) => res.end(chunk))
       req.on('aborted', () => stream.destroy())
       break;
 
