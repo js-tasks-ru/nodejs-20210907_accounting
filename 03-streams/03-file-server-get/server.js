@@ -17,7 +17,6 @@ server.on('request', (req, res) => {
   switch (req.method) {
     case 'GET':
       stream.on('error', (err) => {
-        console.log('error', err.code)
         if (err.code === 'ENOENT') {
           if (!isFile(pathname)) {
             res.statusCode = 400

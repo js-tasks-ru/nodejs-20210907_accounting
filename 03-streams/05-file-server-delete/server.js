@@ -12,17 +12,26 @@ server.on('request', (req, res) => {
 
   switch (req.method) {
     case 'DELETE':
-      if (req.url.split('/').length > 2) {
-        res.statusCode = 400;
-        res.end('Nested folders are not supported')
-      } else if (!fs.existsSync(filepath)) {
-        res.statusCode = 404
-        res.end('Not found')
-      } else {
-        res.statusCode = 200;
-        fs.unlink(filepath, (err) => { })
-        res.end('File was deleted successfully')
-      }
+      fs.unlink(filepath, (err) => {
+        if (!err) {
+          res.statusCode = 200;
+          res.end('File was deleted successfully')
+        } else {
+
+          if (err.code === 'ENOENT') {
+            if (req.url.split('/').length > 2) {
+              res.statusCode = 400;
+              res.end('Nested folders are not supported')
+            } else {
+              res.statusCode = 404
+              res.end('Not found')
+            }
+          } else {
+            res.statusCode = 500
+            res.end('Server error')
+          }
+        }
+      })
       break;
 
     default:
