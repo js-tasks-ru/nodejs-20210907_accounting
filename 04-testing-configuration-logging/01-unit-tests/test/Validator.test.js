@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const { validatorTestCase } = require('../helpers')
 
-describe.only('testing-configuration-logging/unit-tests', () => {
+describe('testing-configuration-logging/unit-tests', () => {
   describe('Validator', () => {
     it('checks string field for min length', () => {
       const errors = validatorTestCase({ name: { type: 'string', min: 10, max: 20, }, }, { name: 'Lalala' })

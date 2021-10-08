@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Product = require('../../02-rest-api/models/Product');
 const connection = require('../libs/connection');
 
 const productSchema = new mongoose.Schema({
@@ -32,4 +33,6 @@ const productSchema = new mongoose.Schema({
 
 });
 
+
+productSchema.index({ title: 'text', description: 'text' }, { name: 'TextSearchIndex', default_language: 'russian', weights: { title: 10, description: 5 } })
 module.exports = connection.model('Product', productSchema);
